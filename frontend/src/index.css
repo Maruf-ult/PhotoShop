@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.myBox {
+  background-color: #6B7280;
+  color: white;
+}
+
+.navColor{
+     background-color: rgb(218, 212, 212);
+}

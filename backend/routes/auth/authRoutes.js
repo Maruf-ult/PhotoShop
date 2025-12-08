@@ -1,0 +1,14 @@
+import express from 'express';
+import { getUserById, login, register, updateUserById, userInfo } from '../../controllers/userModule.js';
+import authMiddleware from '../../middlewares/authMiddleware.js';
+import upload from '../../middlewares/uploadMiddleware.js';
+
+const router = express.Router();
+
+router.post("/register",upload.single("image"),register);
+router.post("/login",login);
+router.get("/profile",authMiddleware,userInfo);
+router.get("/:id",authMiddleware,getUserById);
+router.put("/:id",authMiddleware,updateUserById);
+
+export default router;

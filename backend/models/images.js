@@ -1,0 +1,60 @@
+import mongoose from "mongoose";
+
+const CommentSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+    max: [200, "Not more than 200 characters"],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const ImageSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: true,
+    },
+    image: {
+      type: String,
+      required: true,
+    },
+    title: {
+      type: String,
+      required: true,
+      max: [40, "Not more 40 character"],
+    },
+    description: {
+      type: String,
+      required: true,
+      max: [400, "Not more than 400 character"],
+    },
+    category:{
+       type:String,
+       required:true,
+    },
+    tags: {
+      type: Array,
+      required: true,
+      default: [],
+    },
+    comments: [CommentSchema],
+  },
+  { timestamps: true }
+);
+
+const imageModel = mongoose.model("Images", ImageSchema);
+export default imageModel;
