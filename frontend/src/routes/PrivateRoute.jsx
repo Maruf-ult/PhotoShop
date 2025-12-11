@@ -5,6 +5,8 @@ import { UserContext } from "../context/UseContext";
 function PrivateRoute({ isAdminOnly = false }) {
   const { user, loading } = useContext(UserContext);
 
+  console.log(user);
+
   if (loading) return null;
 
   if (!user) {

@@ -11,14 +11,12 @@ function UserNavbar() {
   const navigate = useNavigate();
   const location = useLocation(); // to highlight active path
 
-   const userData = useContext(UserContext);
-    const user = userData.user;
-  // const [user, setUser] = useState({
-  //   image: "",
-  //   name: "",
-  //   email: "",
-  // });
-
+   const { user } = useContext(UserContext); // Destructure directly for cleaner code
+ console.log(user)
+ // 💡 SOLUTION: Check if user is null/undefined and return early
+ if (!user) {
+ return null; // Or return a simple loading indicator
+ }
   const data = [
     {
       id: "05",
@@ -34,26 +32,6 @@ function UserNavbar() {
     },
   ];
 
-  // useEffect(() => {
-  //   const getUserInfo = async () => {
-  //     try {
-  //       const res = await axiosInstance.get(API_PATHS.AUTH.PROFILE);
-  //       if (res.data.success) {
-  //         setUser({
-  //           image: res.data.data.image,
-  //           name: res.data.data.name,
-  //           email: res.data.data.email,
-  //         });
-  //       } else {
-  //         alert("error getting user info");
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  //   getUserInfo();
-  // }, []);
 
   return (
     
