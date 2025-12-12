@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken";
 const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
-    console.log(authHeader)
+    // console.log(authHeader)
 
-console.log("Authorization header:", authHeader);
+// console.log("Authorization header:", authHeader);
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(403).json({ success: false, msg: "Authentication failed" });
@@ -20,7 +20,7 @@ console.log("Authorization header:", authHeader);
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    console.log(decoded);
+    // console.log(decoded);
 
     req.userId = decoded.userId; // must match payload key
     req.isAdmin = decoded.isAdmin; // optional

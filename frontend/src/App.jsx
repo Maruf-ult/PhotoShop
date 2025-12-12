@@ -26,7 +26,7 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<UserDashboard />} />
           <Route path="/explore" element={<MyPhotos />} />
-          <Route path="/my_photos" element={<History />} />
+          <Route path="/my_photos" element={<MyPhotos />} />
           <Route path="/upload" element={<UploadPhoto />} />
         </Route>
 

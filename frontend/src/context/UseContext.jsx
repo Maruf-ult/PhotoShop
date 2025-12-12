@@ -35,7 +35,6 @@ function UserProvider({ children }) {
 
   const updateUser = (userData) => {
     setUser(userData.user);
-    // console.log("UserData:",userData.user)
     localStorage.setItem("token", userData.token);
     localStorage.setItem("userId",userData.user.id);
     setLoading(false);

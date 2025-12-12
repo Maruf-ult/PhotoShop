@@ -104,7 +104,7 @@ export const getImageById = async (req, res) => {
 //Update Image
 export const updateImage = async (req, res) => {
   try {
-    const imageId = req.params.id;
+    const userId = req.params.id;
     const updateData = { ...req.body };
 
     if (!imageId) {
@@ -153,5 +153,29 @@ export const deleteImage = async (req, res) => {
     return res
       .status(500)
       .json({ success: false, msg: `Internal server error: ${error.message}` });
+  }
+};
+
+
+export const getImageByUserId = async (req, res) => {
+  try {
+    const userId = req.params.userId;
+
+    const images = await imageModel
+      .find({ user: userId }) // << FIXED
+      .populate("user", "name email image")
+      .populate("comments.user", "name email image")
+      .sort({createdAt:-1});
+
+    return res.status(200).json({
+      success: true,
+      msg: "Images fetched successfully",
+      images,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: `Internal server error: ${error.message}`,
+    });
   }
 };

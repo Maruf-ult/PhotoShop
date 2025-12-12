@@ -12,7 +12,7 @@ function UserNavbar() {
   const location = useLocation(); // to highlight active path
 
    const { user } = useContext(UserContext); // Destructure directly for cleaner code
- console.log(user)
+//  console.log(user)
  // 💡 SOLUTION: Check if user is null/undefined and return early
  if (!user) {
  return null; // Or return a simple loading indicator
@@ -35,9 +35,9 @@ function UserNavbar() {
 
   return (
     
-      <div className="w-64 border-r border-gray-700 flex flex-col">
+      <div className="w-64 border-r fixed border-gray-700 flex flex-col ">
         {/* User Info */}
-        <div className="flex p-5 gap-4">
+        <div className="flex p-5 gap-4 ">
           <img
             className="w-16 h-16 rounded-full border border-white"
             src={`${BASE_URL}/uploads/${user.image}`}
@@ -72,7 +72,7 @@ function UserNavbar() {
 
         {/* Bottom Menu */}
        {/* Bottom Menu */}
-<div className="mt-auto flex flex-col">
+<div className="mt-auto flex flex-col ">
   {data.map((item) => {
     const isActive = location.pathname === item.path;
     return (

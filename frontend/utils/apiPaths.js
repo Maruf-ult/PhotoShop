@@ -24,6 +24,7 @@ export const API_PATHS = {
     UPDATE_IMAGE: (id) => `/api/images/${id}`,  // PUT (protected)
     GET_IMAGES: "/api/images/images",           // POST (public)
     GET_IMAGE_BY_ID: (id) => `/api/images/${id}`, // GET (protected)
-    DELETE_IMAGE: (id) => `/api/images/${id}`,    // DELETE (protected)
+    DELETE_IMAGE: (id) => `/api/images/${id}`, 
+    GET_IMAGE_BY_USERID:(userId) => `/api/images/myphotos/${userId}`   // DELETE (protected)
   },
 };

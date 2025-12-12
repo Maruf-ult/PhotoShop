@@ -155,10 +155,10 @@ function UploadPhoto() {
   };
 
   return (
-    <div className="flex h-screen bg-[#1c1f26]">
+    <div className="flex h-screen  bg-[#1c1f26]">
       <UserNavbar />
 
-      <div className="flex-1 p-10 overflow-y-auto">
+      <div className="flex-1 pl-72 p-10 overflow-y-auto">
         <h1 className="font-sans font-bold text-3xl text-white mb-8">
           Upload Your Photos
         </h1>

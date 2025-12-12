@@ -32,8 +32,9 @@ export const downloadPhoto = async (req, res) => {
 
 export const getDownloadHistory = async (req, res) => {
   try {
+    // console.log(req.userId);
     const history = await downloadModel
-      .find({ userId: req.user.id })
+      .find({ userId: req.userId })
       .sort({ downloadedAt: -1 });
 
     return res.status(200).json({
