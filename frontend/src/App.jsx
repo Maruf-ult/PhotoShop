@@ -10,27 +10,32 @@ import UploadPhoto from "./pages/users/UploadPhoto.jsx";
 import UserDashboard from "./pages/users/UserDashboard.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx"; // 👈 create a separate admin dashboard
 import PrivateRoute from "./routes/PrivateRoute.jsx";
+import PublicRoute from "./routes/PublicRoute.jsx"; // 👈 Import the new route
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public routes */}
-        <Route path="/" element={<Home />} />
+        <Route element={<PublicRoute />}>
+          {/* If logged in, / and /login will redirect to /home */}
+          <Route path="/" element={<Home />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+        </Route>
+
+        {/* 2. PUBLIC/COMMON ROUTES (Always accessible, no auth check needed) */}
+        {/* These pages can be seen by both logged in and logged out users */}
         <Route path="/trending" element={<Trending />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/explore" element={<Explore />} />
 
-        {/* User routes */}
-        <Route element={<PrivateRoute />}>
+        {/* 3. USER ROUTES (Only accessible when LOGGED IN) */}
+        <Route element={<PrivateRoute isAdminOnly={false} />}>
           <Route path="/home" element={<UserDashboard />} />
-          <Route path="/explore" element={<MyPhotos />} />
           <Route path="/my_photos" element={<MyPhotos />} />
           <Route path="/upload" element={<UploadPhoto />} />
         </Route>
 
-        {/* Admin routes */}
+        {/* 4. ADMIN ROUTES (Only accessible when LOGGED IN & is admin) */}
         <Route element={<PrivateRoute isAdminOnly={true} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/analytics" element={<MyPhotos />} />

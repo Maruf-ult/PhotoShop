@@ -11,9 +11,12 @@ function UserNavbar() {
   const navigate = useNavigate();
   const location = useLocation(); // to highlight active path
 
-   const { user } = useContext(UserContext); // Destructure directly for cleaner code
+   const { user,clearUser } = useContext(UserContext); // Destructure directly for cleaner code
 //  console.log(user)
  // 💡 SOLUTION: Check if user is null/undefined and return early
+ const logOut = ()=>{
+  clearUser();
+ }
  if (!user) {
  return null; // Or return a simple loading indicator
  }
@@ -83,7 +86,12 @@ function UserNavbar() {
             ? "bg-blue-400 text-white"
             : "text-gray-300 hover:bg-blue-400 hover:text-white"
         }`}
-        onClick={() => navigate(item.path)}
+        onClick={() => {
+          if(item.id==="06"){
+            clearUser();
+          }
+          navigate(item.path)
+        }}
       >
         <item.icon className="w-5 h-5" />
         <span className="font-medium">{item.label}</span>

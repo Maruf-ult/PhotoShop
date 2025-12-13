@@ -5,16 +5,17 @@ import { UserContext } from "../context/UseContext";
 function PrivateRoute({ isAdminOnly = false }) {
   const { user, loading } = useContext(UserContext);
 
-  // console.log(user);
+console.log("PRIVATE ROUTE:", { user, loading });
 
-  if (loading) return null;
+
+  if (loading) return <div>Loading...</div>;
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/" replace />;
   }
 
   if (isAdminOnly && !user.isAdmin) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/home" replace />;
   }
 
   return <Outlet />;

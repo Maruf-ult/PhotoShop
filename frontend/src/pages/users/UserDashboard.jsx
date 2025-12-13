@@ -5,9 +5,9 @@ import { UserContext } from "../../context/UseContext.jsx";
 import UserNavbar from "./UserNavbar.jsx";
 
 function UserDashboard() {
-  const { user } = useContext(UserContext);
-
-  const userId = user._id;
+  const { user,clearUser } = useContext(UserContext);
+  console.log(user)
+  const userId = user.id;
 
   const [activeTab, setActiveTab] = useState("photos");
   const [myPhotos, setMyphotos] = useState([]);
@@ -41,6 +41,10 @@ function UserDashboard() {
   const getYear = (created) => {
     return new Date(created).getFullYear();
   };
+
+  const logOut = () =>{
+    clearUser();
+  }
 
   return (
     <>

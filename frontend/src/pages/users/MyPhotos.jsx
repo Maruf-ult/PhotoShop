@@ -9,7 +9,7 @@ function MyPhotos() {
   const { user } = useContext(UserContext);
   const [myPhotos, setMyPhotos] = useState([]);
 
-  const userId = user._id;
+  const userId = user.id;
 
   useEffect(() => {
     const getPhotos = async () => {

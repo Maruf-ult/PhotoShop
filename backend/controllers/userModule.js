@@ -97,17 +97,21 @@ export const userInfo = async (req, res) => {
     const user = await UserModel.findById(req.userId).select("-password");
 
     if (!user) {
-      return res.status(404).json({ msg: "User not found", success: false });
+      return res.status(404).json({ success: false, msg: "User not found" });
     }
 
-    res.status(200).json({ success: true,data:user });
-
-  } catch (error) {
-    res.status(500).json({
-      msg: "Error getting user info",
-      success: false,
-      error,
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        image: user.image,
+        isAdmin: user.isAdmin,
+      },
     });
+  } catch (error) {
+    res.status(500).json({ success: false, msg: "Error getting user info" });
   }
 };
 

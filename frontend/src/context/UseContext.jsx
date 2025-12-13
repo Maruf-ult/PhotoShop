@@ -1,30 +1,37 @@
-import React, { createContext, useEffect, useState } from "react";
-import axiosInstance from "../../utils/axiosInstance.js";
+import { createContext, useEffect, useState } from "react";
 import { API_PATHS } from "../../utils/apiPaths";
+import axiosInstance from "../../utils/axiosInstance.js";
 
-export const UserContext = createContext();  
+// UserProvider.jsx
+
+// ... imports
+
+export const UserContext = createContext();
 
 function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); // Keep this as true
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+    console.log("TOKEN FROM LS:", token);
 
-    if (!accessToken) {
+    if (!token) {
+      // If NO token, stop IMMEDIATELY and set loading to false.
+      // This ensures the PrivateRoute logic runs quickly for unauthenticated users.
       setLoading(false);
-      console.log("NO access token")
       return;
     }
 
     const fetchUser = async () => {
       try {
+        // ... API call remains the same
         const res = await axiosInstance.get(API_PATHS.AUTH.PROFILE);
-        // console.log("Profile:",res.data.data);
-        setUser(res.data.data); 
+        setUser(res.data.user);
       } catch (error) {
-          console.log("storing error:",error)
-        clearUser();
+        // If API fails, clear user and token.
+        console.log("PROFILE ERROR:", error.response?.status, error.message);
+        clearUser(); // This clears the token and sets user to null
       } finally {
         setLoading(false);
       }
@@ -32,11 +39,18 @@ function UserProvider({ children }) {
 
     fetchUser();
   }, []);
+  // ... rest of the component
 
-  const updateUser = (userData) => {
-    setUser(userData.user);
-    localStorage.setItem("token", userData.token);
-    localStorage.setItem("userId",userData.user.id);
+  const updateUser = (data) => {
+    setUser({
+      id: data.user.id,
+      name: data.user.name,
+      email: data.user.email,
+      image: data.user.image,
+      isAdmin: data.user.isAdmin,
+    });
+
+    localStorage.setItem("token", data.token);
     setLoading(false);
   };
 
