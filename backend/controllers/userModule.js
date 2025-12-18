@@ -132,24 +132,40 @@ export const getUserById = async (req, res) => {
 };
 
 // Update User By ID
+
+
 export const updateUserById = async (req, res) => {
   try {
     const userId = req.params.id;
     const updateData = { ...req.body };
 
-    // If password is being updated, hash it again
+    // Handle password update
     if (updateData.password) {
       const salt = await bcrypt.genSalt(10);
       updateData.password = await bcrypt.hash(updateData.password, salt);
+    } else {
+      delete updateData.password;
     }
 
-    const updatedUser = await UserModel.findByIdAndUpdate(userId, updateData, {
-      new: true,
-      runValidators: true,
-    }).select("-password");
+    // Handle image update
+    if (req.file) {
+      const user = await UserModel.findById(userId);
+
+
+      updateData.image = req.file.filename;
+    }
+
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      userId,
+      updateData,
+      { new: true, runValidators: true }
+    ).select("-password");
 
     if (!updatedUser) {
-      return res.status(404).json({ success: false, msg: "User not found" });
+      return res.status(404).json({
+        success: false,
+        msg: "User not found",
+      });
     }
 
     return res.status(200).json({
@@ -158,6 +174,9 @@ export const updateUserById = async (req, res) => {
       user: updatedUser,
     });
   } catch (error) {
-    return res.status(500).json({ success: false, msg: `Internal server error: ${error.message}` });
+    return res.status(500).json({
+      success: false,
+      msg: error.message,
+    });
   }
 };

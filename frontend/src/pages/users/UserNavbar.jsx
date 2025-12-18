@@ -14,9 +14,7 @@ function UserNavbar() {
    const { user,clearUser } = useContext(UserContext); // Destructure directly for cleaner code
 //  console.log(user)
  // 💡 SOLUTION: Check if user is null/undefined and return early
- const logOut = ()=>{
-  clearUser();
- }
+
  if (!user) {
  return null; // Or return a simple loading indicator
  }

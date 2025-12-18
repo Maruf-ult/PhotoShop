@@ -9,6 +9,6 @@ router.post("/register",upload.single("image"),register);
 router.post("/login",login);
 router.get("/profile",authMiddleware,userInfo);
 router.get("/:id",authMiddleware,getUserById);
-router.put("/:id",authMiddleware,updateUserById);
+router.put("/:id",authMiddleware,upload.single("image"),updateUserById);
 
 export default router;

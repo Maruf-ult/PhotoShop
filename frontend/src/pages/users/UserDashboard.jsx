@@ -3,6 +3,7 @@ import { API_PATHS, BASE_URL } from "../../../utils/apiPaths.js";
 import axiosInstance from "../../../utils/axiosInstance.js";
 import { UserContext } from "../../context/UseContext.jsx";
 import UserNavbar from "./UserNavbar.jsx";
+import { useNavigate } from "react-router-dom";
 
 function UserDashboard() {
   const { user,clearUser } = useContext(UserContext);
@@ -11,8 +12,13 @@ function UserDashboard() {
 
   const [activeTab, setActiveTab] = useState("photos");
   const [myPhotos, setMyphotos] = useState([]);
+  const [history,setHistory] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    
+    if(!userId)return
+    
     const getMyPhotos = async () => {
       try {
         const res = await axiosInstance.get(
@@ -27,14 +33,14 @@ function UserDashboard() {
     const getDownloadHistory= async()=>{
       try {
         const res = await axiosInstance.get(API_PATHS.DOWNLOADS.GET_DOWNLOAD_HISTORY)
-        console.log(res);
+        setHistory(res.data.history);
       } catch (error) {
         console.log(error)
       }
     }
     getMyPhotos();
     getDownloadHistory();
-  }, []);
+  }, [userId]);
 
 
 
@@ -45,6 +51,8 @@ function UserDashboard() {
   const logOut = () =>{
     clearUser();
   }
+
+  console.log(history)
 
   return (
     <>
@@ -122,7 +130,7 @@ function UserDashboard() {
                     key={item._id}
                     className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer"
                   >
-                    <img
+                    <img onClick={()=>navigate(`/image/${item._id}`)}
                       className="h-44 w-full  transition duration-300 ease-in-out group-hover:scale-105"
                       src={`${BASE_URL}${item.image}`}
                       alt={item.title}
@@ -138,18 +146,27 @@ function UserDashboard() {
             )}
 
             {activeTab === "history" && (
-              <div className="text-white">
-                <ul className="space-y-3">
-                  <li className="bg-gray-700 p-3 rounded">
-                    Downloaded 5 photos on Monday
-                  </li>
-                  <li className="bg-gray-700 p-3 rounded">
-                    Uploaded 3 photos yesterday
-                  </li>
-                  <li className="bg-gray-700 p-3 rounded">
-                    Edited profile last week
-                  </li>
-                </ul>
+              <div className=" grid grid-cols-5 gap-4">
+                {/* You can replace with API data later */}
+
+                {/* Dummy Images (Replace with real API later) */}
+                {history?.map((item) => (
+                  <div
+                    key={item._id}
+                    className="relative group overflow-hidden rounded-lg shadow-lg cursor-pointer"
+                  >
+                    <img onClick={()=>navigate(`/image/${item._id}`)}
+                      className="h-44 w-full  transition duration-300 ease-in-out group-hover:scale-105"
+                      src={`${BASE_URL}/uploads/${item.fileName}`}
+                      alt={item.title}
+                    />
+                    <div className="absolute bottom-0 left-0 right-0 p-2  bg-opacity-50 transition duration-300 ease-in-out group-hover:bg-opacity-75">
+                      <p className="text-sm font-semibold text-white truncate">
+                        {item.title}
+                      </p>
+                    </div>
+                  </div>
+                ))}
               </div>
             )}
           </div>

@@ -179,3 +179,30 @@ export const getImageByUserId = async (req, res) => {
     });
   }
 };
+
+export const deleteImageByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await imageModel.deleteMany({ user: userId });
+
+    if (result.deletedCount === 0) {
+      return res.status(404).json({
+        success: false,
+        msg: "No images found for this user",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      msg: "All images deleted successfully",
+      deletedCount: result.deletedCount,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: error.message,
+    });
+  }
+};
+

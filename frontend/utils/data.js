@@ -11,7 +11,7 @@ export const SIDE_MENU_DATA_USER = [
     id: "02",
     label: "Explore",
     icon: Compass, 
-    path: "/explore",
+    path: "/user_explore",
   },
   {
     id: "03",

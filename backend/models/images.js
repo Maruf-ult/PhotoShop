@@ -15,6 +15,19 @@ const CommentSchema = new mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  // Track users who liked this comment
+  likedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    default: []
+  }],
+  // Track users who disliked this comment
+  dislikedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Users",
+    default: []
+  }],
+  // Keep this for backward compatibility if needed
   likes: {
     type: Number,
     default: 0,

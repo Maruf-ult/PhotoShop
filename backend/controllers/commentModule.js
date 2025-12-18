@@ -31,24 +31,86 @@ export const addComment = async (req, res) => {
 
 export const likeComment = async (req, res) => {
   try {
-    const { imageId, commentId } = req.params;
+    const { imageId } = req.params;
+    const { action, commentId } = req.body;
+    
+    // ✅ FIXED: Use req.userId instead of req.user.id (matches your auth middleware)
+    if (!req.userId) {
+      return res.status(401).json({ 
+        success: false, 
+        msg: "User not authenticated" 
+      });
+    }
+    
+    const userId = req.userId;
+
+    // Validate required fields
+    if (!action || !commentId) {
+      return res.status(400).json({ 
+        success: false, 
+        msg: "Action and commentId are required" 
+      });
+    }
 
     const image = await imageModel.findById(imageId);
     if (!image) {
-      return res.status(404).json({ success: false, msg: "image not found" });
+      return res.status(404).json({ 
+        success: false, 
+        msg: "Image not found" 
+      });
     }
+
+    // Use Mongoose .id() to find the subdocument
     const comment = image.comments.id(commentId);
+    
     if (!comment) {
-      return res.status(404).json({ success: false, msg: "comment not found" });
+      return res.status(404).json({ 
+        success: false, 
+        msg: "Comment not found" 
+      });
     }
-    comment.likes += 1;
+
+    // Initialize arrays if they don't exist in older documents
+    if (!comment.likedBy) comment.likedBy = [];
+    if (!comment.dislikedBy) comment.dislikedBy = [];
+
+    if (action === "like") {
+      if (comment.likedBy.includes(userId)) {
+        comment.likedBy.pull(userId); // Unlike if already liked
+      } else {
+        comment.likedBy.push(userId);
+        comment.dislikedBy.pull(userId); // Remove dislike if liking
+      }
+    } else if (action === "dislike") {
+      if (comment.dislikedBy.includes(userId)) {
+        comment.dislikedBy.pull(userId); // Undislike if already disliked
+      } else {
+        comment.dislikedBy.push(userId);
+        comment.likedBy.pull(userId); // Remove like if disliking
+      }
+    } else {
+      return res.status(400).json({ 
+        success: false, 
+        msg: "Invalid action. Must be 'like' or 'dislike'" 
+      });
+    }
+
     await image.save();
-    return res
-      .status(200)
-      .json({ success: true, msg: "Comment liked successfully", comment });
+
+    // Re-populate user to keep the UI consistent
+    const updatedImage = await imageModel
+      .findById(imageId)
+      .populate("comments.user", "name image");
+
+    return res.status(200).json({
+      success: true,
+      image: updatedImage,
+    });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, msg: `Internal server error: ${error.message}` });
+    console.error("Like Comment Error:", error);
+    return res.status(500).json({ 
+      success: false, 
+      msg: error.message 
+    });
   }
 };
