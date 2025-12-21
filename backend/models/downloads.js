@@ -3,8 +3,12 @@ import mongoose from "mongoose";
 const downloadSchema = new mongoose.Schema({
      userId: {
           type:mongoose.Schema.Types.ObjectId,
-          reg:'Users',
+          ref:'Users',
           required:true
+     },
+     imageId:{
+          type:mongoose.Schema.Types.ObjectId,
+          ref:'Images',
      },
      fileName:{
          type:String,

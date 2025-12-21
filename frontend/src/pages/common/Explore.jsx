@@ -18,7 +18,7 @@ function Explore() {
   const [myPhotos, setMyPhotos] = useState([]);
   const [search,setSearch] = useState("");
   const [category, setCategory] = useState("");
-  // const [popularity, setPopularity] = useState("All");
+  const [sortBy,setSortBy] = useState("");
 
   useEffect(() => {
     const getPhotos = async () => {
@@ -31,6 +31,8 @@ function Explore() {
     };
     getPhotos();
   }, []);
+
+
 
 
 const filterData = useMemo(() => {
@@ -52,9 +54,20 @@ const filterData = useMemo(() => {
       (item) => item.category?.toLowerCase() === category
     );
   }
+  if (sortBy === "recent") {
+      data.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    }
+    if (sortBy === "popular") {
+      data.sort((a, b) => (b.comments?.length || 0) - (a.comments?.length || 0));
+    }
+    if (sortBy === "az") {
+      data.sort((a, b) => a.title.localeCompare(b.title));
+    }
 
   return data;
-}, [myPhotos, search, category]);
+}, [myPhotos, search, category,sortBy]);
 
 
 
@@ -108,13 +121,13 @@ const filterData = useMemo(() => {
 })}
 
             <div className="flex text-gray-100 bg-gray-700 p-2 rounded-md gap-4 ml-[508px]">
-              <span className="bg-gray-800 text-white px-3 cursor-pointer">
+              <span onClick={()=>setSortBy("recent")} className="bg-gray-800 text-white px-3 cursor-pointer">
                 Recent
               </span>
-              <span className="hover:bg-gray-800 text-white px-3 cursor-pointer">
+              <span onClick={()=>setSortBy("popular")} className="hover:bg-gray-800 text-white px-3 cursor-pointer">
                 Popular
               </span>
-              <span className="hover:bg-gray-800 text-white px-3 cursor-pointer">
+              <span onClick={()=>setSortBy("az")} className="hover:bg-gray-800 text-white px-3 cursor-pointer">
                 A-Z
               </span>
             </div>
@@ -140,6 +153,11 @@ const filterData = useMemo(() => {
             </div>
           ))}
         </div>
+          {filterData.length === 0 && (
+          <p className="text-gray-400 mt-10 text-center">
+            No photos found.
+          </p>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../components/header/Navbar";
 import bg_image from "../../images/bg_image.jpg";
 
 function Home() {
+  const navigate = useNavigate();
+
   return (
     <>
       <Navbar />
@@ -19,10 +22,16 @@ function Home() {
               visuals from <br /> around the world.
             </p>
             <div className="flex gap-4 justify-center">
-              <button className="bg-blue-500 px-4 py-2 rounded-md">
+              <button
+                onClick={() => navigate("/login")}
+                className="bg-blue-500 px-4 py-2 rounded-md cursor-pointer"
+              >
                 Start Uploading
               </button>
-              <button className="bg-blue-100 text-black px-4 py-2 rounded-md">
+              <button
+                onClick={() => navigate("/explore")}
+                className="bg-blue-100 text-black px-4 py-2 rounded-md cursor-pointer"
+              >
                 Browse Photos
               </button>
             </div>

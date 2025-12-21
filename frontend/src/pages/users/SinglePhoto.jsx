@@ -55,7 +55,7 @@ function SinglePhoto() {
     try {
       const res = await axiosInstance.post(
         API_PATHS.DOWNLOADS.DOWNLOAD_PHOTO,
-        { fileName },
+        { fileName,imageId:id },
         { responseType: "blob" }
       );
 

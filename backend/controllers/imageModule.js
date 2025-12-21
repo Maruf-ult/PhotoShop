@@ -80,8 +80,13 @@ export const getImages = async (req, res) => {
 export const getImageById = async (req, res) => {
   try {
     const imageId = req.params.id;
+
     const image = await imageModel
-      .findById(imageId)
+      .findByIdAndUpdate(
+        imageId,
+        { $inc: { views: 1 } },   // ✅ increment views
+        { new: true }            // ✅ return updated document
+      )
       .populate("user", "name email image")
       .populate("comments.user", "name email image");
 
@@ -95,20 +100,23 @@ export const getImageById = async (req, res) => {
       image,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, msg: `Internal server error: ${error.message}` });
+    return res.status(500).json({
+      success: false,
+      msg: `Internal server error: ${error.message}`,
+    });
   }
 };
+
 
 //Update Image
 export const updateImage = async (req, res) => {
   try {
-    const userId = req.params.id;
+    const imageId = req.params.id;
     const updateData = { ...req.body };
 
-    if (!imageId) {
-      return res.status(404).json({ success: false, msg: "Image not found" });
+    // ✅ VERY IMPORTANT
+    if (req.file) {
+      updateData.image = `/uploads/${req.file.filename}`;
     }
 
     const updatedImage = await imageModel.findByIdAndUpdate(
@@ -118,19 +126,26 @@ export const updateImage = async (req, res) => {
     );
 
     if (!updatedImage) {
-      return res.status(404).json({ success: false, msg: "Image not found" });
+      return res.status(404).json({
+        success: false,
+        msg: "Image not found",
+      });
     }
-    return res.status(200).json({
+
+    res.status(200).json({
       success: true,
       msg: "Image updated successfully",
       image: updatedImage,
     });
   } catch (error) {
-    return res
-      .status(500)
-      .json({ success: false, msg: `Internal server error: ${error.message}` });
+    res.status(500).json({
+      success: false,
+      msg: error.message,
+    });
   }
 };
+
+
 
 //Delete Image
 export const deleteImage = async (req, res) => {

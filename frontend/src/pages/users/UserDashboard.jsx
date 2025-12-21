@@ -142,7 +142,11 @@ function UserDashboard() {
                     </div>
                   </div>
                 ))}
+                 {myPhotos.length === 0 && (
+          <p className="text-gray-400 mt-10  text-center">No photos found.</p>
+        )}
               </div>
+              
             )}
 
             {activeTab === "history" && (
