@@ -44,14 +44,17 @@ const handleSubmit = async (e) => {
       headers: { "Content-Type": "multipart/form-data" },
     });
 
- if (res.data.success) {
-  const { token, user } = res.data;
-  localStorage.setItem("token", token);
-  localStorage.setItem("userId", user.id);
-  updateUser(user);
+if (res.data.success) {
+  updateUser({
+    token: res.data.token,
+    user: res.data.user,
+  });
+
+  localStorage.setItem("userId", res.data.user.id);
 
   navigate("/user/dashboard");
 }
+
 
   } catch (error) {
     console.error(error);

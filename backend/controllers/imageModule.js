@@ -15,12 +15,10 @@ export const uploadImage = async (req, res) => {
     const userId = req.userId; // Use the ID from the authenticated user
 
     if (!uploadedFile || !title || !description || !category || !userId) {
-      return res
-        .status(400)
-        .json({
-          success: false,
-          msg: "Please ensure all required fields are filled and an image is selected.",
-        });
+      return res.status(400).json({
+        success: false,
+        msg: "Please ensure all required fields are filled and an image is selected.",
+      });
     }
 
     // Construct the URL/path for MongoDB
@@ -57,6 +55,7 @@ export const getImages = async (req, res) => {
   try {
     const images = await imageModel
       .find()
+      .sort({ createdAt: -1 })
       .populate("user", "name email image") // populate uploader info
       .populate("comments.user", "name email image"); // populate commenters
 
@@ -84,8 +83,8 @@ export const getImageById = async (req, res) => {
     const image = await imageModel
       .findByIdAndUpdate(
         imageId,
-        { $inc: { views: 1 } },   // ✅ increment views
-        { new: true }            // ✅ return updated document
+        { $inc: { views: 1 } }, // ✅ increment views
+        { new: true } // ✅ return updated document
       )
       .populate("user", "name email image")
       .populate("comments.user", "name email image");
@@ -106,7 +105,6 @@ export const getImageById = async (req, res) => {
     });
   }
 };
-
 
 //Update Image
 export const updateImage = async (req, res) => {
@@ -145,8 +143,6 @@ export const updateImage = async (req, res) => {
   }
 };
 
-
-
 //Delete Image
 export const deleteImage = async (req, res) => {
   try {
@@ -171,7 +167,6 @@ export const deleteImage = async (req, res) => {
   }
 };
 
-
 export const getImageByUserId = async (req, res) => {
   try {
     const userId = req.params.userId;
@@ -180,7 +175,7 @@ export const getImageByUserId = async (req, res) => {
       .find({ user: userId }) // << FIXED
       .populate("user", "name email image")
       .populate("comments.user", "name email image")
-      .sort({createdAt:-1});
+      .sort({ createdAt: -1 });
 
     return res.status(200).json({
       success: true,
@@ -220,4 +215,3 @@ export const deleteImageByUserId = async (req, res) => {
     });
   }
 };
-

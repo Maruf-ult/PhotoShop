@@ -17,7 +17,8 @@ export const API_PATHS = {
   DOWNLOADS: {
     DOWNLOAD_PHOTO: "/api/downloads/download",
     GET_DOWNLOAD_HISTORY: "/api/downloads/history",
-    GET_DOWNLOAD_HISTORY_COUNT:(id)=>`/api/downloads/historycount/${id}`
+    GET_DOWNLOAD_HISTORY_COUNT:(id)=>`/api/downloads/historycount/${id}`,
+    ALL_DOWNLOAD_HISTORY:"/api/downloads/allhistorycount"
   },
 
   IMAGES: {

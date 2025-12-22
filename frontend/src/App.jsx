@@ -13,7 +13,8 @@ import UserDashboard from "./pages/users/UserDashboard.jsx";
 import UserExplore from "./pages/users/UserExplore.jsx";
 import UserSettings from "./pages/users/UserSettings.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
-import PublicRoute from "./routes/PublicRoute.jsx"; // 👈 Import the new route
+import PublicRoute from "./routes/PublicRoute.jsx";
+import AdminSinglePhoto from "./pages/admin/AdminSinglePhoto.jsx"; // 👈 Import the new route
 
 function App() {
   return (
@@ -47,6 +48,8 @@ function App() {
           <Route path="/admin/analytics" element={<MyPhotos />} />
           <Route path="/admin/photo-management" element={<History />} />
           <Route path="/admin/user-management" element={<UploadPhoto />} />
+           <Route path="/admin/image/:id" element={<AdminSinglePhoto />} />
+
         </Route>
       </Routes>
     </BrowserRouter>

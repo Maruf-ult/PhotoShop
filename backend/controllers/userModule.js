@@ -180,3 +180,19 @@ export const updateUserById = async (req, res) => {
     });
   }
 };
+
+export const getAllUser = async (req,res) =>{
+  try {
+    const users = await UserModel.find();
+    if(!users){
+    return res.status(403).json({success:false,msg:"users not found"});   
+    }
+    return res.status(200).json({success:true,msg:"All user fetched user successfully",users});
+
+  } catch (error) {
+     return res.status(500).json({
+      success: false,
+      msg: error.message,
+    });
+  }
+}

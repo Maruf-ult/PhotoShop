@@ -155,10 +155,10 @@ function SinglePhoto() {
             <div className="flex items-center border-y border-gray-700 py-4 gap-4 mt-6">
               <img
                 className="w-12 h-12 rounded-full border border-gray-500 object-cover"
-                src={`${BASE_URL}/uploads/${user?.image}`}
+                src={`${BASE_URL}/uploads/${image?.user?.image}`}
                 alt="user_img"
               />
-              <p className="text-white font-medium">{user?.name}</p>
+              <p className="text-white font-medium">{image?.user?.name}</p>
               <button className="ml-auto text-white bg-gray-700 px-6 py-1.5 rounded-md hover:bg-gray-600 transition">
                 Follow
               </button>

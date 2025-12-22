@@ -1,4 +1,6 @@
-import { Home, Compass, Image, Upload } from "lucide-react";
+import { Home, Compass, Image, Upload, Settings } from "lucide-react";
+import { LayoutDashboard,Users,LogOut } from "lucide-react";
+
 
 export const SIDE_MENU_DATA_USER = [
   {
@@ -32,25 +34,32 @@ export const SIDE_MENU_DATA_ADMIN = [
   {
     id: "01",
     label: "Dashboard",
-    icon: "",
+    icon: LayoutDashboard,
     path: "/admin/dashboard",
   },
   {
     id: "02",
     label: "Photo Management",
-    icon: "",
+    icon: Image,
     path: "/admin/photo-management",
   },
   {
     id: "03",
     label: "User Management",
-    icon: "",
+    icon: Users,
     path: "/admin/user-mangement",
   },
-  {
+   {
     id: "04",
-    label: "Analytics",
-    icon: "",
-    path: "/admin/analytics",
+    label: "Settings",
+    icon: Settings,
+    path: "/admin/settings",
   },
+  {
+    id:"05",
+    label:"Logout",
+    icon:LogOut,
+    path:"/"
+  }
+  
 ];
