@@ -181,18 +181,46 @@ export const updateUserById = async (req, res) => {
   }
 };
 
-export const getAllUser = async (req,res) =>{
+export const getAllUser = async (req, res) => {
   try {
-    const users = await UserModel.find();
-    if(!users){
-    return res.status(403).json({success:false,msg:"users not found"});   
-    }
-    return res.status(200).json({success:true,msg:"All user fetched user successfully",users});
+    // Select specific fields for security (exclude passwords)
+    const users = await UserModel.find().select("-password");
 
+    // Check if the array is empty
+    if (users.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No users found in the database",
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Users fetched successfully",
+      count: users.length, // Helpful for frontend pagination/display
+      users,
+    });
   } catch (error) {
-     return res.status(500).json({
+    console.error("Fetch Users Error:", error); // Log for server debugging
+    return res.status(500).json({
       success: false,
-      msg: error.message,
+      message: "Internal server error",
+      error: error.message,
     });
   }
-}
+};
+
+
+export const deleteUserById = async (req, res) => {
+  try {
+    const id = req.params.id;
+       if (!id) {
+      return res.status(404).json({ success: false, msg: "User not found" });
+    }
+    const user = await UserModel.findByIdAndDelete(id)
+  
+    return res.status(200).json({ success: true, msg: "User deleted successfully" });
+  } catch (error) {
+    return res.status(500).json({ success: false, msg: `Internal server error: ${error.message}` });
+  }
+};

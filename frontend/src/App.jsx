@@ -14,7 +14,11 @@ import UserExplore from "./pages/users/UserExplore.jsx";
 import UserSettings from "./pages/users/UserSettings.jsx";
 import PrivateRoute from "./routes/PrivateRoute.jsx";
 import PublicRoute from "./routes/PublicRoute.jsx";
-import AdminSinglePhoto from "./pages/admin/AdminSinglePhoto.jsx"; // 👈 Import the new route
+import AdminSinglePhoto from "./pages/admin/AdminSinglePhoto.jsx"; 
+import AdminUpload from "./pages/admin/AdminUpload.jsx";
+import AdminSettings from "./pages/admin/AdminSettings.jsx";
+import PhotoMangement from "./pages/admin/PhotoMangement.jsx";
+import UserMangement from "./pages/admin/UserMangement.jsx";
 
 function App() {
   return (
@@ -46,9 +50,11 @@ function App() {
         <Route element={<PrivateRoute isAdminOnly={true} />}>
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/analytics" element={<MyPhotos />} />
-          <Route path="/admin/photo-management" element={<History />} />
-          <Route path="/admin/user-management" element={<UploadPhoto />} />
+          <Route path="/admin/photo-management" element={<PhotoMangement />} />
+          <Route path="/admin/user-management" element={<UserMangement />} />
            <Route path="/admin/image/:id" element={<AdminSinglePhoto />} />
+           <Route path="/admin/upload" element={<AdminUpload/>} />
+            <Route path="/admin/settings" element={<AdminSettings/>} />
 
         </Route>
       </Routes>

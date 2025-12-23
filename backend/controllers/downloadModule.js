@@ -79,3 +79,22 @@ export const getAllDownloads = async (req,res)=>{
     });
   }
 }
+
+
+
+export const AllDownloads = async (req,res)=>{
+   try {
+    const downloads = await downloadModel.find();
+    if(!downloads){
+    return res.status(403).json({success:false,msg:"downloads not found"});   
+    }
+    return res.status(200).json({success:true,msg:"All downloads fetched user successfully",downloads});
+
+  } catch (error) {
+     return res.status(500).json({
+      success: false,
+      msg: error.message,
+    });
+  }
+}
+

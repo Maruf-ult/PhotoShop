@@ -52,7 +52,7 @@ function UserDashboard() {
     clearUser();
   }
 
-  console.log(history)
+  console.log(history);
 
   return (
     <>

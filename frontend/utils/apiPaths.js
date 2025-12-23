@@ -7,6 +7,8 @@ export const API_PATHS = {
     PROFILE: "/api/auth/profile",
     GET_USER_BY_ID: (userId) => `/api/auth/${userId}`,
     UPDATE_USER_BY_ID: (id) => `/api/auth/${id}`,
+    GET_ALL_USERS:"/api/auth/users",
+    DELETE_USER_BY_ID:(id)=>`/api/auth/${id}`
   },
 
   COMMENTS: {
@@ -18,7 +20,8 @@ export const API_PATHS = {
     DOWNLOAD_PHOTO: "/api/downloads/download",
     GET_DOWNLOAD_HISTORY: "/api/downloads/history",
     GET_DOWNLOAD_HISTORY_COUNT:(id)=>`/api/downloads/historycount/${id}`,
-    ALL_DOWNLOAD_HISTORY:"/api/downloads/allhistorycount"
+    ALL_DOWNLOAD_HISTORY:"/api/downloads/allhistorycount",
+    ALL_DOWNLOADS:"/api/downloads/all-downloads"
   },
 
   IMAGES: {

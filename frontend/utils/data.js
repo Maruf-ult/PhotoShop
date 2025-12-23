@@ -47,7 +47,7 @@ export const SIDE_MENU_DATA_ADMIN = [
     id: "03",
     label: "User Management",
     icon: Users,
-    path: "/admin/user-mangement",
+    path: "/admin/user-management",
   },
    {
     id: "04",
